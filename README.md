@@ -7,7 +7,8 @@ The goal of this project is to create a gallery website for a local artist.
 
 The artist should be able to add/remove/modify each piece of art with no programming experience
 
-  each piece of art will have:
+each piece of art will have:
+
     picture(s)
     name
     item id
@@ -19,4 +20,4 @@ The artist should be able to add/remove/modify each piece of art with no program
     tag(s) (optional)
     price (optional)
     
-  the artist will also be able to show/hide each entry
+the artist will also be able to show/hide each entry
