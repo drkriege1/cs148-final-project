@@ -1,7 +1,6 @@
 cs148-final-project
 ===================
-
-Doug Krieger's CS148 Final Project
+Doug Krieger's CS148 Final Project ~ https://github.com/drkriege1/cs148-final-project
 
 The goal of this project is to create a gallery website for a local artist.
 
