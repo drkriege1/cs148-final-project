@@ -51,7 +51,7 @@ database entities:
 TODO
 	//make database
 	//code initial queries
-	code sidebar
+	//code sidebar
 	implement theater view
 	...
 	admin section
