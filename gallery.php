@@ -10,7 +10,7 @@
     	// Make page- and tag- specific title
     	$page = "Gallery";
     	$tag;
-    	if (!isset($_SERVER['QUERY_STRING']) || $_SERVER['QUERY_STRING']=="all") {
+    	if (!isset($_SERVER['QUERY_STRING']) || $_SERVER['QUERY_STRING'] == "all") {
     		$title .= $page;
     	} else {
     		$tag = $_SERVER['QUERY_STRING'];
@@ -27,15 +27,27 @@
     	if (!isset($_SERVER['QUERY_STRING'])) {
     		echo "<a href='gallery.php?all'><h1>View Entire Gallery</h1></a><br><br>";
     		
-    		// Display an image for each tag
     		// do a mysql query to populate $tags[][] appropriately
+    		// ...
+    		
+    		// Display an image for each tag that links to appropriately filtered gallery
     		foreach ($tags as $t) {
     			echo "<a href='gallery.php?$tag'>";
     			echo "<img class='thumbnail' src='$t[img_src]' alt='$t[tag_name]' />";
     			echo "<br><h1>$t[tag_name]</h1></a>";
     		}
     		
-    	} else {
+    	}
+    	
+    	// if query is "all", display unfiltered gallery
+    	// ...
+    	else if ($_SERVER['QUERY_STRING'] == "all") {
+    		
+    	}
+    	
+    	// if query is some tag, display gallery filtered by that tag
+    	// ...
+    	else {
     		
     	}
     ?>
