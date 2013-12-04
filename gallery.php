@@ -23,6 +23,8 @@
 
   <body>
     <?
+    	require_once "includes/nav.php";
+    
     	// if no query, display images images and names for tags
     	if (!isset($_SERVER['QUERY_STRING'])) {
     		echo "<a href='gallery.php?all'><h1>View Entire Gallery</h1></a><br><br>";
@@ -48,8 +50,10 @@
     	// if query is some tag, display gallery filtered by that tag
     	// ...
     	else {
-    		require_once "includes/sidebar.php"
+    		require_once "includes/sidebar.php";
     	}
+    	
+    	require_once "includes/footer.php";
     ?>
   </body>
   
