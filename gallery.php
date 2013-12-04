@@ -53,6 +53,19 @@
     	// ...
     	else if ($_SERVER['QUERY_STRING'] == "all") {
     		require_once "includes/sidebar.php";
+    		$sql = "select fld_name, fld_img_src from tbl_art";
+			$stmt = $db->prepare($sql);
+			$stmt->execute();
+			$tags = array();
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				$art[$row[fld_name]] = $row[fld_img_src];
+			}
+    		foreach ($art as $name => $img_src) {
+    			echo "<a href='gallery.php?$name'>\n";
+    			echo "<img class='thumbnail' src='$img_src' alt='$name' />\n";
+    			echo "<br><h1>$name</h1></a>\n";
+    		}
+			
     	}
     	
     	// if query is some tag, display gallery filtered by that tag
