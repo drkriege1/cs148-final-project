@@ -24,25 +24,27 @@
   <body>
     <?
     	require_once "includes/nav.php";
+    	require_once "includes/connect.php";
     
     	// if no query, display images and names for tags
     	if ($_SERVER['QUERY_STRING'] == '') {
     		echo "<a href='gallery.php?all'><h1>View Entire Gallery</h1></a><br><br>";
     		
-    		// do a mysql query to populate $tags[][] appropriately
+    		// do a mysql query to populate $tags[] appropriately
     		// ...
-    		$sql = "";
+    		$sql = "select distinct fk_tag_name, fld_img_src from tbl_art_tag, tbl_art where fk_art_id = pk_art_id group by fk_tag_name;";
 			$stmt = $db->prepare($sql);
 			$stmt->execute();
+			$tags = array();
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-				
+				$tags[$row[fk_tag_name]] = $row[fld_img_src];
 			}
-    		
+
     		// Display an image for each tag that links to appropriately filtered gallery
-    		foreach ($tags as $t) {
-    			echo "<a href='gallery.php?$tag'>";
-    			echo "<img class='thumbnail' src='$t[img_src]' alt='$t[tag_name]' />";
-    			echo "<br><h1>$t[tag_name]</h1></a>";
+    		foreach ($tags as $tag_name => $img_src) {
+    			echo "<a href='gallery.php?$tag_name'>\n";
+    			echo "<img class='thumbnail' src='$img_src' alt='$tag_name' />\n";
+    			echo "<br><h1>$tag_name</h1></a>\n";
     		}
     		
     	}
