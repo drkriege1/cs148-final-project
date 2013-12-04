@@ -10,7 +10,7 @@
     	// Make page- and tag- specific title
     	$page = "Gallery";
     	$tag;
-    	if (!isset($_SERVER['QUERY_STRING']) || $_SERVER['QUERY_STRING'] == "all") {
+    	if ($_SERVER['QUERY_STRING'] == '' || $_SERVER['QUERY_STRING'] == "all") {
     		$title .= $page;
     	} else {
     		$tag = $_SERVER['QUERY_STRING'];
@@ -18,7 +18,7 @@
     		$title .= ": Art tagged '$tagUC'";
     	}
     ?>
-    <title>$title</title>
+    <title><? echo $title; ?></title>
   </head>
 
   <body>
@@ -26,7 +26,7 @@
     	require_once "includes/nav.php";
     
     	// if no query, display images images and names for tags
-    	if (!isset($_SERVER['QUERY_STRING'])) {
+    	if ($_SERVER['QUERY_STRING'] == '') {
     		echo "<a href='gallery.php?all'><h1>View Entire Gallery</h1></a><br><br>";
     		
     		// do a mysql query to populate $tags[][] appropriately
