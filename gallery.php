@@ -31,7 +31,6 @@
     		echo "<a href='gallery.php?all'><h1>View Entire Gallery</h1></a><br><br>";
     		
     		// do a mysql query to populate $tags[] appropriately
-    		// ...
     		$sql = "select distinct fk_tag_name, fld_img_src from tbl_art_tag, tbl_art where fk_art_id = pk_art_id group by fk_tag_name;";
 			$stmt = $db->prepare($sql);
 			$stmt->execute();
