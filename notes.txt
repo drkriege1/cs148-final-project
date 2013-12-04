@@ -49,7 +49,7 @@ database entities:
 
 #################
 TODO
-	make database
+	//make database
 	code queries
 	implement theater view
 	...
