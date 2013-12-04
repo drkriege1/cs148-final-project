@@ -31,6 +31,12 @@
     		
     		// do a mysql query to populate $tags[][] appropriately
     		// ...
+    		$sql = "";
+			$stmt = $db->prepare($sql);
+			$stmt->execute();
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				
+			}
     		
     		// Display an image for each tag that links to appropriately filtered gallery
     		foreach ($tags as $t) {
