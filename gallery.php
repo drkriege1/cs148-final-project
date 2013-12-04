@@ -25,7 +25,7 @@
     <?
     	require_once "includes/nav.php";
     
-    	// if no query, display images images and names for tags
+    	// if no query, display images and names for tags
     	if ($_SERVER['QUERY_STRING'] == '') {
     		echo "<a href='gallery.php?all'><h1>View Entire Gallery</h1></a><br><br>";
     		
