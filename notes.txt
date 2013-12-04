@@ -10,7 +10,7 @@ Email:
 Scripting:
 	avoid JS (for now), added later as an enhancement
 
-Normal site concept
+Normal gallery concept
 	tag links in sidebar refine display
 		~combined to refine display? (e.g. 2009 AND watercolor)
 		*zero or one active tag at a time
@@ -19,7 +19,7 @@ Normal site concept
 		only image is displayed in (default) 'thumbnail' mode
 			click image and all of the info shows ('theater' mode)
 
-Admin site concept (generally only 'theater' mode differs from normal site)
+Admin gallery concept (generally only 'theater' mode differs from normal site)
 	theater mode
 		add `replace with` field under each admin-modifiable value
 		add [submit button | checkbox] for deletion
@@ -28,12 +28,29 @@ Admin site concept (generally only 'theater' mode differs from normal site)
 	thumbnail mode
 		Display message at top (position: fixed) "Click thumbnail to modify"
 
+Banner concept
+	*rectangle with text over it (aligned right/left)
+		opposite color scheme than rest of site
+	~square image with text next to it
+
 ##################
 
 database entities:
 	art
 	tag
-	~log?
-		~who made changes when
-		~who made _what_ changes when (allow simple non-branching version control that rebases when needed)
-	~site display preferences?
+	site display preferences
+		theme name
+		font family
+		font color
+		background color
+		round corners (how rounded?)
+		banner style (rectangle negative)
+		banner font family
+
+#################
+TODO
+	make database
+	code queries
+	implement theater view
+	...
+	admin section
