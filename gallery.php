@@ -42,13 +42,13 @@
     	// if query is "all", display unfiltered gallery
     	// ...
     	else if ($_SERVER['QUERY_STRING'] == "all") {
-    		
+    		require_once "includes/sidebar.php";
     	}
     	
     	// if query is some tag, display gallery filtered by that tag
     	// ...
     	else {
-    		
+    		require_once "includes/sidebar.php"
     	}
     ?>
   </body>
