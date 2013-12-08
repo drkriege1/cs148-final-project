@@ -19,15 +19,16 @@ Normal gallery concept
 		only image is displayed in (default) 'thumbnail' mode
 			click image and all of the info shows ('theater' mode)
 
-Admin gallery concept (generally only 'theater' mode differs from normal site)
-	theater mode
-		add `replace with` field under each admin-modifiable value
-		add [submit button | checkbox] for deletion
-		add radio buttons for display/hide
-		remove contact button
-	thumbnail mode
-		Display message at top (position: fixed) "Click thumbnail to modify"
-
+Admin  concept
+	gallery.php
+		add new items
+		skip gallery landing load as if gallery.php?all
+		change theme
+	sidebar.php
+		tag for hidden items
+	slide.php
+		modify/hide/show/delete item
+		sql statement must be changed to display hidden items
 Banner concept
 	*rectangle with text over it (aligned right/left)
 		opposite color scheme than rest of site
