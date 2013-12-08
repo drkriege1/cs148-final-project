@@ -49,6 +49,7 @@ database entities:
 
 #################
 TODO
+	*exclude art where fld_display = 0 from gallery
 	//make database
 	//code initial queries
 	//code sidebar
