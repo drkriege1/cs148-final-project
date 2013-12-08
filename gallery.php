@@ -31,7 +31,7 @@
     		echo "<a href='gallery.php?all'><h1>View Entire Gallery</h1></a><br><br>";
     		
     		// do a mysql query to populate $tags[] appropriately
-    		$sql = "select distinct fk_tag_name, fld_img_src from tbl_art_tag, tbl_art where fk_art_id = pk_art_id group by fk_tag_name;";
+    		$sql = "select distinct fk_tag_name, fld_img_src from tbl_art_tag, tbl_art where fk_art_id = pk_art_id and fld_display = 1 group by fk_tag_name;";
 			$stmt = $db->prepare($sql);
 			$stmt->execute();
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -50,7 +50,7 @@
     	// if query is "all", display unfiltered gallery
     	else if ($_SERVER['QUERY_STRING'] == "all") {
     		require_once "includes/sidebar.php";
-    		$sql = "select pk_art_id, fld_name, fld_img_src from tbl_art";
+    		$sql = "select pk_art_id, fld_name, fld_img_src from tbl_art where fld_display = 1";
 			$stmt = $db->prepare($sql);
 			$stmt->execute();
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -67,7 +67,7 @@
     	// ...
     	else {
     		require_once "includes/sidebar.php";
-    		$sql = "select fk_art_id, fld_name, fld_img_src from tbl_art_tag, tbl_art where fk_tag_name=? and fk_art_id=pk_art_id group by fk_art_id;";
+    		$sql = "select fk_art_id, fld_name, fld_img_src from tbl_art_tag, tbl_art where fk_tag_name=? and fk_art_id=pk_art_id and fld_display = 1 group by fk_art_id;";
 			$stmt = $db->prepare($sql);
 			$stmt->execute(array($_SERVER['QUERY_STRING']));
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
