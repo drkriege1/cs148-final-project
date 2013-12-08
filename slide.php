@@ -8,6 +8,7 @@
 	$stmt = $db->prepare($sql);
 	$stmt->execute(array($_SERVER['QUERY_STRING']));
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	$title .= $row[fld_name];
 	
 ?>
 <!DOCTYPE html>
