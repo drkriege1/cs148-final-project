@@ -28,8 +28,7 @@
     
     	// if no query, display images and names for tags
     	if ($_SERVER['QUERY_STRING'] == '') {
-    		echo "<a href='gallery.php?all'><h1>View Entire Gallery</h1></a><br><br>";
-    		
+    				
     		// do a mysql query to populate $tags[] appropriately
     		$sql = "select distinct fk_tag_name, fld_img_src from tbl_art_tag, tbl_art where fk_art_id = pk_art_id and fld_display = 1 group by fk_tag_name;";
 			$stmt = $db->prepare($sql);
@@ -38,11 +37,14 @@
 				$tags[$row[fk_tag_name]] = $row[fld_img_src];
 			}
 
+			$gallery_img = $tags[array_rand($tags)];
+			echo "<a href='gallery.php?all'><img class='thumbnail' src='$gallery_img' alt='All' /><br><h1>View Entire Gallery</h1></a><br>\n";
+			
     		// Display an image for each tag that links to appropriately filtered gallery
     		foreach ($tags as $tag_name => $img_src) {
     			echo "<a href='gallery.php?$tag_name'>\n";
     			echo "<img class='thumbnail' src='$img_src' alt='$tag_name' />\n";
-    			echo "<br><h1>$tag_name</h1></a>\n";
+    			echo "<br><h1>$tag_name</h1></a>\n<br>";
     		}
     		
     	}
@@ -56,10 +58,10 @@
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				$art[$row[pk_art_id]] = array($row[fld_img_src], $row[fld_name]);
 			}
-    		foreach ($art as $id => $imgSrc_name) {
+    		foreach ($art as $id => $img_src_name) {
     			echo "<a href='slide.php?$id'>\n";
-    			echo "<img class='thumbnail' src='$imgSrc_name[0]' alt='$imgSrc_name[1]' />\n";
-    			echo "<br><h1>$imgSrc_name[1]</h1></a>\n";
+    			echo "<img class='thumbnail' src='$img_src_name[0]' alt='$img_src_name[1]' />\n";
+    			echo "<br><h1>$img_src_name[1]</h1></a>\n";
     		}
     	}
     	

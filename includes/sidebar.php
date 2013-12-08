@@ -5,10 +5,10 @@
 	$stmt = $db->prepare($sql);
 	$stmt->execute();
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-		$tags[] = $row[fk_tag_name];
+		$tags_sidebar[] = $row[fk_tag_name];
 	}
 
-    foreach ($tags as $tag) {
+    foreach ($tags_sidebar as $tag) {
     	$tag = ucfirst($tag);
     	echo "<a href='gallery.php?$tag'>$tag</a><br>\n";
     }
