@@ -1,0 +1,59 @@
+=========
+Legend: `~` = option, `*` = preferred option
+=========
+Authenticating:
+	use uvm web auth .htaccess
+
+Email:
+	when visitor wants to inquire about buying something
+
+Scripting:
+	avoid JS (for now), added later as an enhancement
+
+Normal gallery concept
+	tag links in sidebar refine display
+		~combined to refine display? (e.g. 2009 AND watercolor)
+		*zero or one active tag at a time
+			when zero active tags, display first piece in category
+	one image per piece of art
+		only image is displayed in (default) 'thumbnail' mode
+			click image and all of the info shows ('theater' mode)
+
+Admin  concept
+	gallery.php
+		add new items
+		skip gallery landing load as if gallery.php?all
+		change theme
+	sidebar.php
+		tag for hidden items
+	slide.php
+		modify/hide/show/delete item
+		sql statement must be changed to display hidden items
+Banner concept
+	*rectangle with text over it (aligned right/left)
+		opposite color scheme than rest of site
+	~square image with text next to it
+
+##################
+
+database entities:
+	art
+	tag
+	site display preferences
+		theme name
+		font family
+		font color
+		background color
+		round corners (how rounded?)
+		banner style (rectangle negative)
+		banner font family
+
+#################
+TODO
+	*exclude art where fld_display = 0 from gallery
+	//make database
+	//code initial queries
+	//code sidebar
+	implement theater view
+	...
+	admin section

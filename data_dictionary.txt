@@ -1,0 +1,38 @@
+mysql> describe tbl_art;
++-------------------+--------------+------+-----+-------------------+-----------------------------+
+| Field             | Type         | Null | Key | Default           | Extra                       |
++-------------------+--------------+------+-----+-------------------+-----------------------------+
+| pk_art_id         | int(11)      | NO   | PRI | NULL              | auto_increment              |
+| fld_name          | varchar(50)  | NO   |     | NULL              |                             |
+| fld_img_src       | varchar(100) | NO   | UNI | NULL              |                             |
+| fld_description   | varchar(200) | YES  |     | NULL              |                             |
+| fld_availability  | tinyint(4)   | NO   |     | NULL              |                             |
+| fld_price         | smallint(6)  | YES  |     | NULL              |                             |
+| fld_last_modified | timestamp    | NO   |     | CURRENT_TIMESTAMP | on update CURRENT_TIMESTAMP |
++-------------------+--------------+------+-----+-------------------+-----------------------------+
+
+mysql> describe tbl_tag;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| pk_tag_name | varchar(50) | NO   | PRI | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+
+mysql> describe tbl_art_tag;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| fk_art_id   | int(11)     | NO   | PRI | NULL    |       |
+| fk_tag_name | varchar(50) | NO   | PRI | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+
+mysql> describe tbl_theme;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| pk_theme_name     | varchar(50) | NO   | PRI | NULL    |       |
+| fld_font_family   | varchar(20) | NO   |     | NULL    |       |
+| fld_font_color    | varchar(20) | NO   |     | NULL    |       |
+| fld_bg_color      | varchar(20) | NO   |     | NULL    |       |
+| fld_round_corners | varchar(5)  | NO   |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
