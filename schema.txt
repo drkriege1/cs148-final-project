@@ -1,9 +1,10 @@
 create table tbl_art (
 	pk_art_id int primary key auto_increment,
+	fld_display tinyint,
 	fld_name varchar(50) not null,
 	fld_img_src varchar(100) not null,
 	fld_description varchar(200),
-	fld_availability tinyint not null,
+	fld_availability tinyint,
 	fld_price smallint,
 	fld_last_modified timestamp,
 	unique index (fld_img_src)
