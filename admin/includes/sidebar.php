@@ -12,5 +12,7 @@
     	$tag = ucfirst($tag);
     	echo "<a href='gallery.php?$tag'>$tag</a><br>\n";
     }
+    
+    echo "<a href='gallery.php?hidden'>[HIDDEN]</a>";
     		
 ?>
