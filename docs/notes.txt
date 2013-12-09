@@ -50,10 +50,9 @@ database entities:
 
 #################
 TODO
-	*exclude art where fld_display = 0 from gallery
-	//make database
-	//code initial queries
-	//code sidebar
-	implement theater view
-	...
-	admin section
+	make slide_form.php
+	make theme.php
+	-------
+	make footer.php
+	make style.php (css)
+	make inquiry.php (email)
