@@ -26,6 +26,9 @@
     	require_once "includes/nav.php";
     	require_once "includes/sidebar.php";
     	require_once "includes/connect.php";
+    	
+    	echo "<a href='slide.php'>\n";
+		echo "<h1>Add New Item</h1></a>\n";
     
     	// if query is "all" or empty, display unfiltered gallery
     	if ($_SERVER['QUERY_STRING'] == "all" || $_SERVER['QUERY_STRING'] == '') {
