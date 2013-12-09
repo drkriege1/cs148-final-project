@@ -46,7 +46,7 @@
     	}
     	// if query is "hidden", display gallery filtered by fld_display=0
     	else if ($_SERVER['QUERY_STRING'] == "hidden") {
-    		$sql = "select pk_art_id, fld_name, fld_img_src from tbl_art where fld_display=1";
+    		$sql = "select pk_art_id, fld_name, fld_img_src from tbl_art where fld_display=0";
 			$stmt = $db->prepare($sql);
 			$stmt->execute();
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
