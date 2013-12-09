@@ -24,8 +24,8 @@
   <body>
     <?
     	require_once "includes/nav.php";
-    	require_once "includes/sidebar.php";
     	require_once "includes/connect.php";
+    	require_once "includes/sidebar.php";
     	
     	echo "<a href='slide.php'>\n";
 		echo "<h1>Add New Item</h1></a>\n";
