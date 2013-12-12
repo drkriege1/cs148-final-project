@@ -51,7 +51,7 @@
   				echo "$availability</li>\n";
   				
   				echo "      <li>Tags: $tags</li>\n";
-  				echo "      <li>Last Modified: $row[0][fld_last_modified]</li>\n"; 		
+  				echo "      <li>Last Modified: " .$row[0][fld_last_modified]. "</li>\n"; 		
   				echo "    </ul>";
   			}
   		}
