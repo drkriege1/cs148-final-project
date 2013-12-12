@@ -52,6 +52,7 @@
   			echo "      <li>Last Modified: " .$slideRow[0][fld_last_modified]. "</li>\n"; 		
   			echo "    </ul>";
   		}
+  		require_once "includes/footer.php";
   	?>
   	
   </body>

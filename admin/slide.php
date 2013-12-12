@@ -56,6 +56,7 @@
   			}
   		}
   		require_once "includes/slide_form.php";
+  		require_once "includes/footer.php";
   	?>	
   	
   </body>
