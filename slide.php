@@ -4,10 +4,14 @@
 	
 	require_once "includes/connect.php";
 	
-	$sql = "select fld_name, fld_img_src, fld_description, fld_availability, fld_price, fk_tag_name, 
-			fld_last_modified from tbl_art, tbl_art_tag where pk_art_id=? and pk_art_id=fk_art_id and fld_display=1;";
+	$sql = "select fld_name, fld_img_src, fld_description, fld_availability, 
+	fld_price, fk_tag_name, fld_last_modified from tbl_art, tbl_art_tag 
+	where pk_art_id=? and pk_art_id=fk_art_id 
+	UNION 
+	select fld_name, fld_img_src, fld_description, fld_availability, fld_price, 
+	null as fk_tag_name, fld_last_modified from tbl_art  where pk_art_id=?;";
 	$stmt = $db->prepare($sql);
-	$stmt->execute(array($_SERVER['QUERY_STRING']));
+	$stmt->execute(array($_SERVER['QUERY_STRING'], $_SERVER['QUERY_STRING']));
 	$slideRow[] = $stmt->fetch(PDO::FETCH_ASSOC);
 	$valid = false;
 	if (count($slideRow[0]) == 7) {
@@ -17,7 +21,9 @@
 		else $availability = "(not available)";
 		while ($temp = $stmt->fetch(PDO::FETCH_ASSOC)) if (count($temp) == 7) $slideRow[] = $temp;
 		foreach ($slideRow as $tagRow) {
-			$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucfirst($tagRow[fk_tag_name])."</a>";
+			if ($tagRow[fk_tag_name] != "NULL") {
+				$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucfirst($tagRow[fk_tag_name])."</a>";
+			}
 		}
 		$tags = implode(", ", $tags);
 	} else {

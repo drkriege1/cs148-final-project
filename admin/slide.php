@@ -1,33 +1,43 @@
 <?
-	require_once "includes/slide_form_validate.php";
-
 	//This should probably be a require_once
 	$title = "Emily Deutchman's Art ~ ";
 	
 	require_once "includes/connect.php";
 	
 	if ($_SERVER['QUERY_STRING'] != '') {
-		$sql = "select fld_name, fld_img_src, fld_description, fld_availability, fld_price, fk_tag_name, 
-				fld_last_modified from tbl_art, tbl_art_tag where pk_art_id=? and pk_art_id=fk_art_id;";
+		$sql = "select fld_display, fld_name, fld_img_src, fld_description, fld_availability, 
+		fld_price, fk_tag_name, fld_last_modified from tbl_art, tbl_art_tag 
+		where pk_art_id=? and pk_art_id=fk_art_id 
+		UNION 
+		select fld_display, fld_name, fld_img_src, fld_description, fld_availability, fld_price, 
+		null as fk_tag_name, fld_last_modified from tbl_art  where pk_art_id=?;";
 		$stmt = $db->prepare($sql);
-		$stmt->execute(array($_SERVER['QUERY_STRING']));
+		$stmt->execute(array($_SERVER['QUERY_STRING'], $_SERVER['QUERY_STRING']));
 		$slideRow[] = $stmt->fetch(PDO::FETCH_ASSOC);
 		$valid = false;
-		if (count($slideRow[0]) == 7) {
+		if (count($slideRow[0]) == 8) {
 			$valid = true;
 			$title .= ucfirst($slideRow[0][fld_name]);
 			if ($slideRow[0][fld_availability] == 1) $availability = "(available)";
 			else $availability = "(not available)";
-			while ($temp = $stmt->fetch(PDO::FETCH_ASSOC)) if (count($temp) == 7) $slideRow[] = $temp;
-			foreach ($slideRow as $tagRow) {
-				$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucfirst($tagRow[fk_tag_name])."</a>";
+			while ($temp = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				if (count($temp) == 8) $slideRow[] = $temp;
 			}
-			$tags = implode(", ", $tags);
+			foreach ($slideRow as $tagRow) {
+				if ($tagRow[fk_tag_name] != "") {
+					$tagsArray[] = $tagRow[fk_tag_name];
+					$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucfirst($tagRow[fk_tag_name])."</a>";
+				}
+			}
+			if (sizeof($tagsArray) > 0) $tags = implode(", ", $tags);
+			else $tags = "None";
+
 		} else {
 			$error = "Error: Invalid Art ID";
 			$title .= $error;
 		}
 	} else $title .= "New Item";
+	require_once "includes/slide_form_processing.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,10 +64,16 @@
   				
   				echo "      <li>Tags: $tags</li>\n";
   				echo "      <li>Last Modified: " .$slideRow[0][fld_last_modified]. "</li>\n"; 		
-  				echo "    </ul>";
+  				echo "    </ul><br>";
   			}
   		}
-  		require_once "includes/slide_form.php";
+  		if (!$isValid && $_POST['submit'] == "Submit") {
+  			echo "<ul>";
+  			foreach ($errors as $error) echo "\n$error";
+  			echo "\n</ul>\n";
+  		}
+  		
+  		if ($valid) require_once "includes/slide_form.php";
   		require_once "includes/footer.php";
   	?>	
   	

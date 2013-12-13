@@ -1,3 +1,4 @@
+<h1><? echo $addOrUpdate; ?></h1>
 <form id="slideForm" method="post">
 	<fieldset>
 		<legend>Image:</legend>
@@ -16,7 +17,7 @@
 	
 	<fieldset>
 		<legend>Price:</legend>
-		$<input type="text" name="price" maxlength="4" value="<? echo $slideRow[0][fld_price]; ?>"><br>.00	
+		$<input type="text" name="price" maxlength="4" value="<? echo $slideRow[0][fld_price]; ?>">.00<br>	
 	</fieldset>
 	
 	<fieldset>
@@ -27,9 +28,28 @@
 	
 	<fieldset>
 		<legend>Display:</legend>
-		Yes<input type="radio" name="display" value="1"<? if ($slideRow[0][fld_display] == 1 || $slideRow[0][fld_display] != 0) echo ' checked=""'; ?>> 
-		No<input type="radio" name="display" value="0"<? if ($slideRow[0][fld_display] == 0) echo ' checked=""'; ?>>
+		<? $display = $slideRow[0][fld_display]; ?>
+		Yes<input type="radio" name="display" value="1"<?  if ($display == 1) echo ' checked=""'; ?>> 
+		No<input type="radio" name="display" value="0"<? if ($display != 1) echo ' checked=""'; ?>>
 	</fieldset>
 	
-	<input type="submit" formaction="<? $_SERVER['PHP_SELF'] ?>">
+	<fieldset>
+		<legend>Tags:</legend>
+		<?
+			$tagFields = array();
+			if (sizeof($tagsArray) == 0) $tagsArray = array();
+			foreach ($tagNames as $tag) {
+				$checked = "";
+				if (in_array($tag, $tagsArray)) $checked = ' checked=""';
+				$tagFields[] = ucfirst($tag) .'<input type="checkbox" name="tags[]" value="'. $tag .'"'. $checked .'">';
+			}
+			$tagFields = implode(' | ', $tagFields);
+			echo $tagFields;
+			echo "<br>";
+		?>
+		New Tag: <input type="text" name="newTag" maxlength="50">
+
+	</fieldset>
+	
+	<input type="submit" name="submit" value="Submit" formaction="<? echo $_SERVER['PHP_SELF'] . "?" . $_SERVER['QUERY_STRING']; ?>">
 </form>
