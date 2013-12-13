@@ -16,7 +16,7 @@
 	
 	<fieldset>
 		<legend>Price:</legend>
-		$<input type="text" name="price" maxlength="5" value="<? echo $slideRow[0][fld_price]; ?>"><br>.00	
+		$<input type="text" name="price" maxlength="4" value="<? echo $slideRow[0][fld_price]; ?>"><br>.00	
 	</fieldset>
 	
 	<fieldset>
