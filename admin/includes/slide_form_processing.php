@@ -24,7 +24,7 @@
 			if ($key == 'submit' || $key == 'newTag' || $key == 'tags') {
 			}
 			elseif ($key == 'name' || $key == 'price' || $key == 'description') {
-				$sanitizedFields[$key] = htmlspecialchars($value);
+				$sanitizedFields[$key] = strtolower(htmlspecialchars($value, ENT_QUOTES));
 			}
 			else $sanitizedFields[$key] = $value;
 		}
@@ -73,10 +73,14 @@
 		elseif ($_SERVER['QUERY_STRING'] == ""){
 			$sql = "insert into tbl_art set ";
 			$sql .= "fld_display=:display, fld_name=:name, fld_img_src=:image, ";
-			$sql .= "fld_description=:description, fld_availability=:availability, fld_price=:price; select last_insert_id();";
+			$sql .= "fld_description=:description, fld_availability=:availability, fld_price=:price;";
 			$stmt = $db->prepare($sql);
 			$stmt->execute($sanitizedFields);
+			$sql = "select last_insert_id();";
+			$stmt = $db->prepare($sql);
+			$stmt->execute();
 			$auto_ID = $stmt->fetchColumn();
+			
 			//if necessary add record to tbl_tag
 			$tagsArray = $_POST['tags'];
 			if (strlen($_POST['newTag']) > 0) {
@@ -86,14 +90,15 @@
 				$stmt->execute(array($_POST['newTag']));
 			}
 			//add records to tbl_art_tag
-			$sql = "";
-
-			foreach ($tagsArray as $tag) {
-				$sql .= "insert into tbl_art_tag set ";
-				$sql .= "fk_tag_name=?, fk_art_id=$auto_ID;";
+			if (sizeof($tagsArray) > 0) {
+				$sql = "";
+				foreach ($tagsArray as $tag) {
+					$sql .= "insert into tbl_art_tag set ";
+					$sql .= "fk_tag_name=?, fk_art_id='". $auto_ID ."';";
+				}
+				$stmt = $db->prepare($sql);
+				$stmt->execute($tagsArray);
 			}
-			$stmt = $db->prepare($sql);
-			$stmt = execute($tags);
 			header("Location: ". $_SERVER['PHP_SELF'] ."?$auto_ID");
 		}
 		

@@ -9,8 +9,8 @@
 	}
 
     foreach ($tags_sidebar as $tag) {
-    	$tag = ucfirst($tag);
-    	echo "<a href='gallery.php?$tag'>$tag</a><br>\n";
+    	$ucTag = ucfirst($tag);
+    	echo "<a href='gallery.php?$tag'>$ucTag</a><br>\n";
     }
     
     echo "<a href='gallery.php?hidden'>[HIDDEN]</a>";

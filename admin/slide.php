@@ -17,7 +17,7 @@
 		$valid = false;
 		if (count($slideRow[0]) == 8) {
 			$valid = true;
-			$title .= ucfirst($slideRow[0][fld_name]);
+			$title .= ucwords($slideRow[0][fld_name]);
 			if ($slideRow[0][fld_availability] == 1) $availability = "(available)";
 			else $availability = "(not available)";
 			while ($temp = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -26,7 +26,7 @@
 			foreach ($slideRow as $tagRow) {
 				if ($tagRow[fk_tag_name] != "") {
 					$tagsArray[] = $tagRow[fk_tag_name];
-					$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucfirst($tagRow[fk_tag_name])."</a>";
+					$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucwords($tagRow[fk_tag_name])."</a>";
 				}
 			}
 			if (sizeof($tagsArray) > 0) $tags = implode(", ", $tags);
@@ -54,7 +54,7 @@
     		if (!$valid) echo "<p>$error</p>";
     		else {
   				echo "<img src='".$slideRow[0][fld_img_src]."' alt='".$slideRow[0][fld_name]."'/>\n";
-  				echo "    <h1>".ucfirst($slideRow[0][fld_name])."</h1>\n";
+  				echo "    <h1>".ucwords($slideRow[0][fld_name])."</h1>\n";
   				echo "    <ul>\n";
   				if ($slideRow[0][fld_description] != "") echo "      <li>Description: " .$slideRow[0][fld_description]. "</li>\n";
   				
@@ -73,7 +73,7 @@
   			echo "\n</ul>\n";
   		}
   		
-  		if ($valid) require_once "includes/slide_form.php";
+  		if ($valid || $_SERVER['QUERY_STRING'] == "") require_once "includes/slide_form.php";
   		require_once "includes/footer.php";
   	?>	
   	

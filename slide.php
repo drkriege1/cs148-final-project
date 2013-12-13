@@ -6,24 +6,23 @@
 	
 	$sql = "select fld_name, fld_img_src, fld_description, fld_availability, 
 	fld_price, fk_tag_name, fld_last_modified from tbl_art, tbl_art_tag 
-	where pk_art_id=? and pk_art_id=fk_art_id 
+	where pk_art_id=? and pk_art_id=fk_art_id and fld_display=1
 	UNION 
 	select fld_name, fld_img_src, fld_description, fld_availability, fld_price, 
-	null as fk_tag_name, fld_last_modified from tbl_art  where pk_art_id=?;";
+	null as fk_tag_name, fld_last_modified from tbl_art  where pk_art_id=? and fld_display=1;";
 	$stmt = $db->prepare($sql);
 	$stmt->execute(array($_SERVER['QUERY_STRING'], $_SERVER['QUERY_STRING']));
 	$slideRow[] = $stmt->fetch(PDO::FETCH_ASSOC);
 	$valid = false;
 	if (count($slideRow[0]) == 7) {
 		$valid = true;
-		$title .= ucfirst($slideRow[0][fld_name]);
+		$title .= ucwords($slideRow[0][fld_name]);
 		if ($slideRow[0][fld_availability] == 1) $availability = "(available)";
 		else $availability = "(not available)";
 		while ($temp = $stmt->fetch(PDO::FETCH_ASSOC)) if (count($temp) == 7) $slideRow[] = $temp;
 		foreach ($slideRow as $tagRow) {
 			if ($tagRow[fk_tag_name] != "NULL") {
-				$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucfirst($tagRow[fk_tag_name])."</a>";
-			}
+				$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucwords($tagRow[fk_tag_name])."</a>";
 		}
 		$tags = implode(", ", $tags);
 	} else {
@@ -46,7 +45,7 @@
     	if (!$valid) echo "<p>$error</p>";
     	else {
   			echo "<img src='".$slideRow[0][fld_img_src]."' alt='".$slideRow[0][fld_name]."'/>\n";
-  			echo "    <h1>".ucfirst($slideRow[0][fld_name])."</h1>\n";
+  			echo "    <h1>".ucwords($slideRow[0][fld_name])."</h1>\n";
   			echo "    <ul>\n";
   			if ($slideRow[0][fld_description] != "") echo "      <li>Description: " .$slideRow[0][fld_description]. "</li>\n";
   			
