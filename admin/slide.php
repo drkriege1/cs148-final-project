@@ -1,4 +1,6 @@
 <?
+	require_once "includes/slide_form_validate.php";
+
 	//This should probably be a require_once
 	$title = "Emily Deutchman's Art ~ ";
 	
