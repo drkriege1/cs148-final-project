@@ -21,8 +21,8 @@
 	
 	<fieldset>
 		<legend>Available:</legend>
-		Yes<input type="radio" name="available" value="1"<? if ($slideRow[0][fld_available] == 1 || $slideRow[0][fld_available] != 0) echo ' checked=""'; ?>> 
-		No<input type="radio" name="available" value="0"<? if ($slideRow[0][fld_available] == 0) echo ' checked=""'; ?>>
+		Yes<input type="radio" name="availability" value="1"<? if ($slideRow[0][fld_availability] == 1 || $slideRow[0][fld_availability] != 0) echo ' checked=""'; ?>> 
+		No<input type="radio" name="availability" value="0"<? if ($slideRow[0][fld_availability] == 0) echo ' checked=""'; ?>>
 	</fieldset>
 	
 	<fieldset>
