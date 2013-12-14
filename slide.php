@@ -19,12 +19,18 @@
 		$title .= ucwords($slideRow[0][fld_name]);
 		if ($slideRow[0][fld_availability] == 1) $availability = "(available)";
 		else $availability = "(not available)";
-		while ($temp = $stmt->fetch(PDO::FETCH_ASSOC)) if (count($temp) == 7) $slideRow[] = $temp;
-		foreach ($slideRow as $tagRow) {
-			if ($tagRow[fk_tag_name] != "NULL") {
-				$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucwords($tagRow[fk_tag_name])."</a>";
+		while ($temp = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			if (count($temp) == 7) $slideRow[] = $temp;
 		}
-		$tags = implode(", ", $tags);
+		foreach ($slideRow as $tagRow) {
+			if ($tagRow[fk_tag_name] != "") {
+				$tagsArray[] = $tagRow[fk_tag_name];
+				$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucwords($tagRow[fk_tag_name])."</a>";
+			}
+		}
+		if (sizeof($tagsArray) > 0) $tags = implode(", ", $tags);
+		else $tags = "None";
+
 	} else {
 		$error = "Error: Invalid Art ID";
 		$title .= $error;

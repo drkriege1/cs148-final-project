@@ -5,29 +5,42 @@
 	$stmt->execute();
 	while ($tagNames[] = $stmt->fetchColumn());
 	array_pop($tagNames);
-	
+
+	if ($_POST['deleteRecord'] == 1) deleteRecord();
 
 	//Validation...
+	if ($valid) $addOrUpdate = "Update Art"; else $addOrUpdate = "Add Art";
 	require_once "includes/slide_form_validate.php";
 	$isValid = false;
-	$errors = array();
-	$validName = validName($_POST['name']);
-	$validPrice = validPrice($_POST['price']);
-	if (!$validName) $errors[] = "<li>Error: invalid Name</li>";
-	if (!$validPrice) $errors[] = "<li>Error: invalid Price</li>";
-	if ($validName and $validPrice) $isValid = true;
+	
+	if (sizeof($_POST) > 0) {
+		$errors = array();
+		if (validForm()) $isValid = true;
+		else {
+			$errors = array();
+			foreach (validForm() as $e) $errors[] = "<li>$e</li>";
+		}
+	}
 	
 	//if valid, update database
 	if ($isValid) {
 		//sanitize fields from $_POST (only text fields are actually sanitized)
+		$sanatizedFields = array();
 		foreach ($_POST as $key => $value) {
-			if ($key == 'submit' || $key == 'newTag' || $key == 'tags') {
-			}
-			elseif ($key == 'name' || $key == 'price' || $key == 'description') {
+			if ($key == 'MAX_FILE_SIZE' || $key == 'deleteRecord' || $key == 'leaveImage' || $key == 'image' || $key == 'submit' || $key == 'newTag' || $key == 'tags') {
+			} elseif ($key == 'name' || $key == 'price' || $key == 'description') {
 				$sanitizedFields[$key] = strtolower(htmlspecialchars($value, ENT_QUOTES));
+			} else {
+				$sanitizedFields[$key] = $value;
 			}
-			else $sanitizedFields[$key] = $value;
 		}
+		//add $_FILES['image']
+		if ($_POST['leaveImage'] == 0) {
+			move_uploaded_file($_FILES['image']['tmp_name'], $targetFolder . $_FILES['image']['name']);
+			$imgSrc = $httpFolder . $_FILES['image']['name'];
+			$sanitizedFields['image'] = $imgSrc;
+		} else $sanitizedFields['image'] = $slideRow[0][fld_img_src];
+		
 		//check if art is new or pre-existing
 			//if pre-existing...
 		if ($valid) {
@@ -102,8 +115,6 @@
 			header("Location: ". $_SERVER['PHP_SELF'] ."?$auto_ID");
 		}
 		
-	} else {
-		if ($valid) $addOrUpdate = "Update Art"; else $addOrUpdate = "Add Art";
 	}
 	/*
 	else {

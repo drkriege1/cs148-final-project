@@ -1,7 +1,13 @@
 <h1><? echo $addOrUpdate; ?></h1>
-<form id="slideForm" method="post">
+<form id="slideForm" method="post" action="<? echo $_SERVER['PHP_SELF'] . "?" . $_SERVER['QUERY_STRING']; ?>" enctype="multipart/form-data">
 	<fieldset>
 		<legend>Image:</legend>
+		<?	if ($addOrUpdate == "Update Art") {
+				echo '<label>Keep Existing Image<input type="radio" name="leaveImage" value="1" checked=""></label><br>';
+				echo '<label>Upload New Image<input type="radio" name="leaveImage" value="0"></label><br>';
+			}
+		?>
+		<input type="hidden" name="MAX_FILE_SIZE" value="3145728"> <!-- == 3 mb -->
 		<input type="file" name="image" value="<? echo $slideRow[0][fld_img_src]; ?>"><br>
 	</fieldset>
 	
@@ -51,5 +57,10 @@
 
 	</fieldset>
 	
-	<input type="submit" name="submit" value="Submit" formaction="<? echo $_SERVER['PHP_SELF'] . "?" . $_SERVER['QUERY_STRING']; ?>">
+	<fieldset>
+		<legend>Submit Form</legend>
+		<input type="submit" name="submit" value="Submit">
+		<label>Normal Submit<input type="radio" name="deleteRecord" value="0" checked=""></label>
+		<label>Delete Record<input type="radio" name="deleteRecord" value="1"></label>
+	</fieldset>
 </form>
