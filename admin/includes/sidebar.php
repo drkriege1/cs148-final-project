@@ -8,11 +8,12 @@
 		$tags_sidebar[] = $row[fk_tag_name];
 	}
 
-    foreach ($tags_sidebar as $tag) {
-    	$ucTag = ucfirst($tag);
-    	echo "<a href='gallery.php?$tag'>$ucTag</a><br>\n";
+	if (sizeof($tags_sidebar) > 0) {
+    	foreach ($tags_sidebar as $tag) {
+    		$ucTag = ucwords($tag);
+    		echo "<a href='gallery.php?$tag'>$ucTag</a><br>\n";
+    	}
     }
-    
-    echo "<a href='gallery.php?hidden'>[HIDDEN]</a>";
+    echo "<a href='gallery.php?hidden'>[HIDDEN]</a><br>";
     		
 ?>

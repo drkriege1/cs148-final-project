@@ -37,14 +37,16 @@
 				$tags[$row[fk_tag_name]] = $row[fld_img_src];
 			}
 
-			$gallery_img = $tags[array_rand($tags)];
 			echo "<a href='gallery.php?all'><img class='thumbnail' src='$gallery_img' alt='All' /><br><h1>View Entire Gallery</h1></a><br>\n";
 			
-    		// Display an image for each tag that links to appropriately filtered gallery
-    		foreach ($tags as $tag_name => $img_src) {
-    			echo "<a href='gallery.php?$tag_name'>\n";
-    			echo "<img class='thumbnail' src='$img_src' alt='$tag_name' />\n";
-    			echo "<br><h1>$tag_name</h1></a>\n<br>";
+			if($tags) {
+				$gallery_img = $tags[array_rand($tags)];
+    			// Display an image for each tag that links to appropriately filtered gallery
+    			foreach ($tags as $tag_name => $img_src) {
+    				echo "<a href='gallery.php?$tag_name'>\n";
+    				echo "<img class='thumbnail' src='$img_src' alt='$tag_name' />\n";
+    				echo "<br><h1>$tag_name</h1></a>\n<br>";
+    			}
     		}
     		
     	}
@@ -58,11 +60,13 @@
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				$art[$row[pk_art_id]] = array($row[fld_img_src], $row[fld_name]);
 			}
-    		foreach ($art as $id => $img_src_name) {
-    			echo "<a href='slide.php?$id'>\n";
-    			echo "<img class='thumbnail' src='$img_src_name[0]' alt='$img_src_name[1]' />\n";
-    			echo "<br><h1>$img_src_name[1]</h1></a>\n";
-    		}
+			if ($art) {
+    			foreach ($art as $id => $img_src_name) {
+    				echo "<a href='slide.php?$id'>\n";
+    				echo "<img class='thumbnail' src='$img_src_name[0]' alt='$img_src_name[1]' />\n";
+    				echo "<br><h1>$img_src_name[1]</h1></a>\n";
+    			}
+    		} else echo "<h1>No Art To Display... Check back later!</h1>";
     	}
     	
     	// if query is some tag, display gallery filtered by that tag

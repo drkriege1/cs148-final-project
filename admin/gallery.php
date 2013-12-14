@@ -38,10 +38,12 @@
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				$art[$row[pk_art_id]] = array($row[fld_img_src], $row[fld_name]);
 			}
-    		foreach ($art as $id => $img_src_name) {
-    			echo "<a href='slide.php?$id'>\n";
-    			echo "<img class='thumbnail' src='$img_src_name[0]' alt='$img_src_name[1]' />\n";
-    			echo "<br><h1>$img_src_name[1]</h1></a>\n";
+			if ($art) {
+    			foreach ($art as $id => $img_src_name) {
+    				echo "<a href='slide.php?$id'>\n";
+    				echo "<img class='thumbnail' src='$img_src_name[0]' alt='$img_src_name[1]' />\n";
+    				echo "<br><h1>$img_src_name[1]</h1></a>\n";
+    			}
     		}
     	}
     	// if query is "hidden", display gallery filtered by fld_display=0

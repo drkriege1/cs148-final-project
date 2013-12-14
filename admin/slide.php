@@ -67,7 +67,7 @@
   				echo "    </ul><br>";
   			}
   		}
-  		if (!$isValid && $_POST['submit'] == "Submit") {
+  		if ($isValid === false && ($_POST['submit'] == "Submit")) {
   			echo "<ul>";
   			foreach ($errors as $error) echo "\n$error";
   			echo "\n</ul>\n";
