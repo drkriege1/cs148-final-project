@@ -36,6 +36,11 @@
 	
 	//if valid, update database
 	if ($isValid) {
+		//clean up tbl_tag: delete tags that are not in tbl_art_tag
+		$sql = "delete from tbl_tag where pk_tag_name not in (select fk_tag_name from tbl_art_tag) ;";
+		$stmt = $db->prepare($sql);
+		$stmt->execute();
+	
 		//sanitize fields from $_POST (only text fields are actually sanitized, others are excluded)
 		foreach ($_POST as $key => $value) {
 			if ($key == 'MAX_FILE_SIZE' || $key == 'deleteRecord' || $key == 'leaveImage' || $key == 'image' || $key == 'submit' || $key == 'newTag' || $key == 'tags') {
@@ -51,6 +56,15 @@
 			$imgSrc = $httpFolder . $_FILES['image']['name'];
 			$sanitizedFields['image'] = $imgSrc;
 		} else $sanitizedFields['image'] = $slideRow[0][fld_img_src];
+		
+		//send email 'Successful Form Submission'
+		$subject = "Successful Form Submission";
+		$msg = "Form submitted with the following fields:<br><br>";
+		foreach ($sanitizedFields as $name => $field) {
+			$msg .= "  $name : $field<br>";
+		}
+		require_once "includes/mailMessage.php";
+		$mail = sendMail("", $subject, $msg);
 		
 		//check if art is new or pre-existing
 			//if pre-existing...

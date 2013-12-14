@@ -61,7 +61,11 @@
   			
   			echo "      <li>Tags: $tags</li>\n";
   			echo "      <li>Last Modified: " .$slideRow[0][fld_last_modified]. "</li>\n"; 		
-  			echo "    </ul>";
+  			echo "    </ul><br>";
+  			$email = substr(sha1('Emily Deutchman\'s Art'), 0, 30) . "@mailinator.com";
+  			$subject = "RE: ". $_SERVER['PHP_SELF'] ."?". $_SERVER['QUERY_STRING'];
+  			$sanitizedSubject = htmlspecialchars($subject);
+  			echo "<a href='mailto:$email?Subject=$sanitizedSubject'>Send email about this item</a>";
   		}
   		require_once "includes/footer.php";
   	?>
