@@ -1,4 +1,6 @@
 <?	
+	echo "<div id='tags'>";
+	echo "<h3>Tags:</h3>";
 	echo "<a href='gallery.php?all'>[ALL]</a><br>";
 	
     $sql = "select distinct fk_tag_name from tbl_art_tag, tbl_art where fld_display = 1 and pk_art_id = fk_art_id group by fk_tag_name";
@@ -15,5 +17,6 @@
     	}
     }
     echo "<a href='gallery.php?hidden'>[HIDDEN]</a><br>";
+    echo "</div>";
     		
 ?>

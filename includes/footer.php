@@ -1,4 +1,5 @@
 <?
+	echo "\n";
 	$path = $_SERVER['PHP_SELF'] . "?" . $_SERVER['QUERY_STRING'];
 	if (preg_match("|/admin|", $path) === 1) {
 		$standard = preg_replace("|/admin|", "", $path);
@@ -12,6 +13,6 @@
 ?>
 <p>
 	View: <? echo $standard; ?> | <? echo $admin; ?>
-	<hr>
+	<br>
 	Site Created by Doug Krieger, Copywrite 2013
 </p>

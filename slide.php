@@ -63,7 +63,8 @@
   			echo "      <li>Last Modified: " .$slideRow[0][fld_last_modified]. "</li>\n"; 		
   			echo "    </ul><br>";
   			$email = substr(sha1('Emily Deutchman\'s Art'), 0, 30) . "@mailinator.com";
-  			$subject = "RE: ". $_SERVER['PHP_SELF'] ."?". $_SERVER['QUERY_STRING'];
+  			$subject = 'RE: '. $_SERVER['PHP_SELF'] ."?". $_SERVER['QUERY_STRING'];
+  			$subject = urlencode($subject);
   			$sanitizedSubject = htmlspecialchars($subject);
   			echo "<a href='mailto:$email?Subject=$sanitizedSubject'>Send email about this item</a>";
   		}

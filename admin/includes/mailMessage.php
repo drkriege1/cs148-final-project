@@ -30,7 +30,7 @@ function sendMail($to, $subject, $message){
     if (strlen($message)<$MIN_MESSAGE_LENGTH) return false;
     
     $to = htmlentities($to,ENT_QUOTES,"UTF-8");
-    $subject = htmlentities($subject,ENT_QUOTES,"UTF-8");
+    $subject = urlencode(htmlentities($subject,ENT_QUOTES,"UTF-8"));
     
     // we cannot push message into html entites or we lose the format
     // of our email so be sure to do that before sending it to this function

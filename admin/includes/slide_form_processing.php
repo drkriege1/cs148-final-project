@@ -72,17 +72,26 @@
 			}
 		}
 		//add $_FILES['image']
-		if ($_POST['leaveImage'] === 0 || $valid !== true) {
+		//echo $_POST['leaveImage'] === 0;
+		if (($_POST['leaveImage'] == 0) || ($valid !== true)) {
+		//if ($_POST['leaveImage'] === 0) {
 			$destinationLong = $targetFolder . $_FILES['image']['name'];
 			$destinationExtension = "." . array_pop(explode(".", $_FILES['image']['name']));
 			$sizeMinusExtension = (100 - (strlen($destinationExtension) - $sizeDifference));
 			$destination = substr($destinationLong, 0, $sizeMinusExtension) . $destinationExtension;
+			if (strlen($destination) > strlen($destinationLong)) $destination = $destinationLong;
 			copy($_FILES['image']['tmp_name'], $destination);
-			$imgSrcLong = $httpFolder . $_FILES['image']['name'];
-			$imgSrcExtension = $destinationExtension;
-			$sizeMinusExtension = (100 - (strlen($imgSrcExtension)));
-			$imgSrc = substr($imgSrcLong, 0, $sizeMinusExtension) . $imgSrcExtension;
+			$imgSrc = preg_replace("|$targetFolder(.*)|", "$httpFolder\\1", $destination);
 			$sanitizedFields['image'] = $imgSrc;
+			if ($valid === true) {
+				// delete image
+				$sql = "select fld_img_src from tbl_art where pk_art_id=". $_SERVER['QUERY_STRING'] .";";
+				$stmt = $db->prepare($sql);
+				$stmt->execute();
+				$httpImgSrc = $stmt->fetchColumn();
+				$fileImgSrc = preg_replace("|$httpFolder(.*)|", "$targetFolder\\1", $httpImgSrc);
+				unlink($fileImgSrc);
+			}
 		} else $sanitizedFields['image'] = $slideRow[0][fld_img_src];
 		
 		//send email 'Successful Form Submission'

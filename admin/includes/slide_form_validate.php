@@ -47,6 +47,7 @@
 		$potentialFileExtension = "." . array_pop(explode(".", $_FILES['image']['name']));
 		$sizeMinusExtension = (100 - (strlen($potentialFileExtension) - $sizeDifference));
 		$potentialFile = substr($potentialFileLong, 0, $sizeMinusExtension) . $potentialFileExtension;
+		if ($potentialFile > $potentialFileLong) $potentialFile = $potentialFileLong;
 		if (file_exists($potentialFile) == true) {
 			return "Error: Image Name Already In Use, Please Rename Before Uploading";
 		} else return true;

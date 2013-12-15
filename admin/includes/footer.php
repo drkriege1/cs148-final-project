@@ -1,4 +1,5 @@
 <?
+	echo "\n";
 	$path = $_SERVER['PHP_SELF'] . "?" . $_SERVER['QUERY_STRING'];
 	if (preg_match("|/admin|", $path) === 1) {
 		$standard = preg_replace("|/admin|", "", $path);
