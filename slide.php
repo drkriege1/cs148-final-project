@@ -4,22 +4,33 @@
 	
 	require_once "includes/connect.php";
 	
-	$sql = "select fld_name, fld_img_src, fld_description, fld_availability, fld_price, fk_tag_name, 
-			fld_last_modified from tbl_art, tbl_art_tag where pk_art_id=? and pk_art_id=fk_art_id and fld_display=1;";
+	$sql = "select fld_name, fld_img_src, fld_description, fld_availability, 
+	fld_price, fk_tag_name, fld_last_modified from tbl_art, tbl_art_tag 
+	where pk_art_id=? and pk_art_id=fk_art_id and fld_display=1
+	UNION 
+	select fld_name, fld_img_src, fld_description, fld_availability, fld_price, 
+	null as fk_tag_name, fld_last_modified from tbl_art  where pk_art_id=? and fld_display=1;";
 	$stmt = $db->prepare($sql);
-	$stmt->execute(array($_SERVER['QUERY_STRING']));
-	$row[] = $stmt->fetch(PDO::FETCH_ASSOC);
+	$stmt->execute(array($_SERVER['QUERY_STRING'], $_SERVER['QUERY_STRING']));
+	$slideRow[] = $stmt->fetch(PDO::FETCH_ASSOC);
 	$valid = false;
-	if (count($row[0]) == 7) {
+	if (count($slideRow[0]) == 7) {
 		$valid = true;
-		$title .= ucfirst($row[0][fld_name]);
-		if ($row[0][fld_availability] == 1) $availability = "(available)";
+		$title .= ucwords($slideRow[0][fld_name]);
+		if ($slideRow[0][fld_availability] == 1) $availability = "(available)";
 		else $availability = "(not available)";
-		while ($temp = $stmt->fetch(PDO::FETCH_ASSOC)) if (count($temp) == 7) $row[] = $temp;
-		foreach ($row as $tagRow) {
-			$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucfirst($tagRow[fk_tag_name])."</a>";
+		while ($temp = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			if (count($temp) == 7) $slideRow[] = $temp;
 		}
-		$tags = implode(", ", $tags);
+		foreach ($slideRow as $tagRow) {
+			if ($tagRow[fk_tag_name] != "") {
+				$tagsArray[] = $tagRow[fk_tag_name];
+				$tags[] = "<a href='gallery.php?".$tagRow[fk_tag_name]."'>".ucwords($tagRow[fk_tag_name])."</a>";
+			}
+		}
+		if (sizeof($tagsArray) > 0) $tags = implode(", ", $tags);
+		else $tags = "None";
+
 	} else {
 		$error = "Error: Invalid Art ID";
 		$title .= $error;
@@ -39,19 +50,25 @@
     	require_once "includes/sidebar.php";
     	if (!$valid) echo "<p>$error</p>";
     	else {
-  			echo "<img src='".$row[0][fld_img_src]."' alt='".$row[0][fld_name]."'/>\n";
-  			echo "    <h1>".ucfirst($row[0][fld_name])."</h1>\n";
+  			echo "<img src='".$slideRow[0][fld_img_src]."' alt='".$slideRow[0][fld_name]."'/>\n";
+  			echo "    <h1>".ucwords($slideRow[0][fld_name])."</h1>\n";
   			echo "    <ul>\n";
-  			if ($row[0][fld_description] != "") echo "      <li>Description: $row[0][fld_description]</li>\n";
+  			if ($slideRow[0][fld_description] != "") echo "      <li>Description: " .$slideRow[0][fld_description]. "</li>\n";
   			
-  			if ($row[0][fld_price] != "") echo "      <li>Price: $".$row[0][fld_price]." ";
+  			if ($slideRow[0][fld_price] != "") echo "      <li>Price: $".$slideRow[0][fld_price]." ";
   			else echo "      <li>\n";
   			echo "$availability</li>\n";
   			
   			echo "      <li>Tags: $tags</li>\n";
-  			echo "      <li>Last Modified: $row[0][fld_last_modified]</li>\n"; 		
-  			echo "    </ul>";
+  			echo "      <li>Last Modified: " .$slideRow[0][fld_last_modified]. "</li>\n"; 		
+  			echo "    </ul><br>";
+  			$email = substr(sha1('Emily Deutchman\'s Art'), 0, 30) . "@mailinator.com";
+  			$subject = 'RE: '. $_SERVER['PHP_SELF'] ."?". $_SERVER['QUERY_STRING'];
+  			$subject = urlencode($subject);
+  			$sanitizedSubject = htmlspecialchars($subject);
+  			echo "<a href='mailto:$email?Subject=$sanitizedSubject'>Send email about this item</a>";
   		}
+  		require_once "includes/footer.php";
   	?>
   	
   </body>

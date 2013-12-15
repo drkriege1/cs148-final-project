@@ -13,6 +13,6 @@
 ?>
 <p>
 	View: <? echo $standard; ?> | <? echo $admin; ?>
-	<br>
+	<hr>
 	Site Created by Doug Krieger, Copywrite 2013
 </p>

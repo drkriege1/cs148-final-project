@@ -21,11 +21,3 @@ create table tbl_art_tag (
 	foreign key (fk_art_id) references tbl_art (pk_art_id),
 	foreign key (fk_tag_name) references tbl_tag (pk_tag_name)
 );
-
-create table tbl_theme (
-	pk_theme_name varchar(50) primary key,
-	fld_font_family varchar(20) not null,
-	fld_font_color varchar(20) not null,
-	fld_bg_color varchar(20) not null,
-	fld_round_corners varchar(5) not null
-);

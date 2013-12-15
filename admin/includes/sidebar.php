@@ -16,5 +16,7 @@
     		echo "<a href='gallery.php?$tag'>$ucTag</a><br>\n";
     	}
     }
+    echo "<a href='gallery.php?hidden'>[HIDDEN]</a><br>";
+    echo "</div>";
     		
 ?>

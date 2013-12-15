@@ -1,0 +1,6 @@
+<Files *>
+AuthType WebAuth
+require user drkriege rerickso
+satisfy any
+order allow,deny
+</Files>
