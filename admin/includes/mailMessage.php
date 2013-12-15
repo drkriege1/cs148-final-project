@@ -18,7 +18,7 @@
 //
 // function returns a boolean value
 function sendMail($to, $subject, $message){ 
-    $MIN_MESSAGE_LENGTH=40;
+    $MIN_MESSAGE_LENGTH=19;
     
     // just checking to make sure the values passed in are reasonable
     if(empty($to)) $to = substr(sha1('Emily Deutchman\'s Art'), 0, 30) . "@mailinator.com";

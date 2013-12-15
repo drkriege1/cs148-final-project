@@ -30,7 +30,8 @@
 		} else return isImage();
 	}
 	$targetFolder = "/users/d/r/drkriege/public_html/cs148/assignment7.1/cs148-final-project/img/";
-	$httpFolder = "http://www.uvm.edu/~drkriege/cs148/assignment7.1/cs148-final-project/img/";
+	$httpFolder =   "http://www.uvm.edu/~drkriege/cs148/assignment7.1/cs148-final-project/img/";
+	$sizeDifference = strlen($targetFolder) - strlen($httpFolder);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 	function isImage() {
@@ -40,8 +41,13 @@
 		} else return true;
 	}
 	function uniqueImage() {
-		global $httpFolder;
-		if (file_exists($httpFolder. $_FILES['image']['name'])) {
+		global $targetFolder;
+		global $sizeDifference;
+		$potentialFileLong = $targetFolder. $_FILES['image']['name'];
+		$potentialFileExtension = "." . array_pop(explode(".", $_FILES['image']['name']));
+		$sizeMinusExtension = (100 - (strlen($potentialFileExtension) - $sizeDifference));
+		$potentialFile = substr($potentialFileLong, 0, $sizeMinusExtension) . $potentialFileExtension;
+		if (file_exists($potentialFile) == true) {
 			return "Error: Image Name Already In Use, Please Rename Before Uploading";
 		} else return true;
 	}

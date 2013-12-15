@@ -1,4 +1,8 @@
 <?
+	// import function sendMail();
+	require_once "includes/mailMessage.php";
+	require_once "includes/slide_form_validate.php";
+	
 	//get array of tags called $tagNames
 	$sql = "select pk_tag_name from tbl_tag";
 	$stmt = $db->prepare($sql);
@@ -8,12 +12,29 @@
 
 	// skip field validation for 'deletingRecord()
 	function deleteRecord() {
-		global $db;
+		global $db; global $httpFolder; global $targetFolder;
+		// delete image
+		$sql = "select fld_img_src from tbl_art where pk_art_id=". $_SERVER['QUERY_STRING'] .";";
+		$stmt = $db->prepare($sql);
+		$stmt->execute();
+		$httpImgSrc = $stmt->fetchColumn();
+		$fileImgSrc = preg_replace("|$httpFolder(.*)|", "$targetFolder\\1", $httpImgSrc);
+		unlink($fileImgSrc);
+		
+		// delete record
 		$sql = "delete from tbl_art_tag where fk_art_id='". $_SERVER['QUERY_STRING'] ."'; ";
 		$sql .= "delete from tbl_art where pk_art_id='". $_SERVER['QUERY_STRING'] ."';";
 		$stmt = $db->prepare($sql);
 		$stmt->execute();
-		header("Location: https://www.uvm.edu/~drkriege/cs148/assignment7.1/cs148-final-project/gallery.php");
+		
+		// send email
+		$subject = "Successful Form Submission: Delete";
+		$msg = "Deleted slide.php?". $_SERVER['QUERY_STRING'];
+		$message = htmlspecialchars($msg);
+		$mail = sendMail("", $subject, $message);
+		
+		// redirect to gallery
+		header("Location: https://www.uvm.edu/~drkriege/cs148/assignment7.1/cs148-final-project/admin/gallery.php");
 		exit;
 	}
 	
@@ -23,7 +44,7 @@
 	if ($valid) {
 		$addOrUpdate = "Update Art";
 	} else $addOrUpdate = "Add Art";
-	require_once "includes/slide_form_validate.php";
+
 	$isValid = false;
 	
 	if ($_POST['submit'] == "Submit") {
@@ -52,8 +73,15 @@
 		}
 		//add $_FILES['image']
 		if ($_POST['leaveImage'] === 0 || $valid !== true) {
-			copy($_FILES['image']['tmp_name'], $targetFolder . $_FILES['image']['name']);
-			$imgSrc = $httpFolder . $_FILES['image']['name'];
+			$destinationLong = $targetFolder . $_FILES['image']['name'];
+			$destinationExtension = "." . array_pop(explode(".", $_FILES['image']['name']));
+			$sizeMinusExtension = (100 - (strlen($destinationExtension) - $sizeDifference));
+			$destination = substr($destinationLong, 0, $sizeMinusExtension) . $destinationExtension;
+			copy($_FILES['image']['tmp_name'], $destination);
+			$imgSrcLong = $httpFolder . $_FILES['image']['name'];
+			$imgSrcExtension = $destinationExtension;
+			$sizeMinusExtension = (100 - (strlen($imgSrcExtension)));
+			$imgSrc = substr($imgSrcLong, 0, $sizeMinusExtension) . $imgSrcExtension;
 			$sanitizedFields['image'] = $imgSrc;
 		} else $sanitizedFields['image'] = $slideRow[0][fld_img_src];
 		
@@ -63,7 +91,6 @@
 		foreach ($sanitizedFields as $name => $field) {
 			$msg .= "  $name : $field<br>";
 		}
-		require_once "includes/mailMessage.php";
 		$mail = sendMail("", $subject, $msg);
 		
 		//check if art is new or pre-existing
