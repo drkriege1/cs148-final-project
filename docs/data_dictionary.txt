@@ -1,8 +1,12 @@
+Data Dictionary for database `DRKRIEGE_assignment7.1`||
+=====================================================||
+
 mysql> describe tbl_art;
 +-------------------+--------------+------+-----+-------------------+-----------------------------+
 | Field             | Type         | Null | Key | Default           | Extra                       |
 +-------------------+--------------+------+-----+-------------------+-----------------------------+
 | pk_art_id         | int(11)      | NO   | PRI | NULL              | auto_increment              |
+| fld_display       | tinyint(4)   | YES  |     | NULL              |                             |
 | fld_name          | varchar(50)  | NO   |     | NULL              |                             |
 | fld_img_src       | varchar(100) | NO   | UNI | NULL              |                             |
 | fld_description   | varchar(200) | YES  |     | NULL              |                             |
@@ -10,6 +14,7 @@ mysql> describe tbl_art;
 | fld_price         | smallint(6)  | YES  |     | NULL              |                             |
 | fld_last_modified | timestamp    | NO   |     | CURRENT_TIMESTAMP | on update CURRENT_TIMESTAMP |
 +-------------------+--------------+------+-----+-------------------+-----------------------------+
+8 rows in set (0.00 sec)
 
 mysql> describe tbl_tag;
 +-------------+-------------+------+-----+---------+-------+
@@ -17,6 +22,7 @@ mysql> describe tbl_tag;
 +-------------+-------------+------+-----+---------+-------+
 | pk_tag_name | varchar(50) | NO   | PRI | NULL    |       |
 +-------------+-------------+------+-----+---------+-------+
+1 row in set (0.00 sec)
 
 mysql> describe tbl_art_tag;
 +-------------+-------------+------+-----+---------+-------+
@@ -25,14 +31,4 @@ mysql> describe tbl_art_tag;
 | fk_art_id   | int(11)     | NO   | PRI | NULL    |       |
 | fk_tag_name | varchar(50) | NO   | PRI | NULL    |       |
 +-------------+-------------+------+-----+---------+-------+
-
-mysql> describe tbl_theme;
-+-------------------+-------------+------+-----+---------+-------+
-| Field             | Type        | Null | Key | Default | Extra |
-+-------------------+-------------+------+-----+---------+-------+
-| pk_theme_name     | varchar(50) | NO   | PRI | NULL    |       |
-| fld_font_family   | varchar(20) | NO   |     | NULL    |       |
-| fld_font_color    | varchar(20) | NO   |     | NULL    |       |
-| fld_bg_color      | varchar(20) | NO   |     | NULL    |       |
-| fld_round_corners | varchar(5)  | NO   |     | NULL    |       |
-+-------------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
